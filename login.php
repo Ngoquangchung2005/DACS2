@@ -109,10 +109,15 @@ if (isset($_POST['submit'])) {
                 <div><br></div>
 
                 <input type="submit" name="submit" value="Đăng nhập ngay" class="btn">
-                <p>Bạn chưa có tài khoản ? <a href="register.php">Đăng ký ngay</a></p>
+                
+                <p>Bạn chưa có tài khoản ? <a href="register.php">Đăng ký ngay</a> / <a href="forgot_password.php">Quên mật khẩu</a></p>
+
             </form>
         </section>
     </div>
+
+
 </body>
+
 
 </html>

@@ -19,14 +19,15 @@
         if (addToWishlist($user_id, $product_id)) {
             $_SESSION['added_to_wishlist'] = true;
         } else {
-            $_SESSION['wishlist_exists'] = true; 
+            $_SESSION['wishlist_exists'] = true;
         }
     }
 
     // Thêm sản phẩm vào giỏ hàng
     if (isset($_POST['add_to_cart'])) {
         $product_id = $_POST['product_id'];
-        $qty = $_POST['qty'];
+        $qty = isset($_POST['qty']) ? $_POST['qty'] : 1; // Gán giá trị mặc định là 1
+
         if (addToCart($user_id, $product_id, $qty)) {
             $_SESSION['added_to_cart'] = true;
         } else {
@@ -43,7 +44,7 @@
         // Kiểm tra sản phẩm đã có trong wishlist chưa
         $varify_wishlist = mysqli_query($conn, "SELECT * FROM wishlist WHERE user_id = '$user_id' AND product_id = '$product_id'");
         if (mysqli_num_rows($varify_wishlist) > 0) {
-            return false; 
+            return false;
         }
 
         // Lấy giá sản phẩm từ bảng `product`
@@ -84,7 +85,7 @@
         // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
         $varify_cart = mysqli_query($conn, "SELECT * FROM cart WHERE user_id = '$user_id' AND product_id = '$product_id'");
         if (mysqli_num_rows($varify_cart) > 0) {
-            return false; 
+            return false;
         }
 
         $select_price = mysqli_query($conn, "SELECT price FROM products WHERE id = '$product_id' LIMIT 1");
@@ -95,7 +96,7 @@
             $insert_cart = mysqli_query($conn, "INSERT INTO cart (id, user_id, product_id, price, qty) VALUES ('$id', '$user_id', '$product_id', '$price', '$qty')");
             return true;
         }
-        return false; 
+        return false;
     }
 
     // Lấy giá trị tìm kiếm và danh mục từ form
@@ -108,19 +109,19 @@
     $start_from = ($page - 1) * $limit;
 
     //  tìm kiếm
-    $query = "SELECT * FROM products WHERE 1"; 
+    $query = "SELECT * FROM products WHERE 1";
 
     if ($search) {
         $query .= " AND name LIKE '%$search%'";
     }
     if ($category) {
-        $query .= " AND iddm = '$category'"; 
+        $query .= " AND iddm = '$category'";
     }
 
     $total_query = $query;
-    $query .= " LIMIT $start_from, $limit"; 
+    $query .= " LIMIT $start_from, $limit";
 
-    
+
     $select_products = mysqli_query($conn, $query);
     $total_records = mysqli_query($conn, str_replace("SELECT *", "SELECT COUNT(*)", $total_query));
     $total_records = mysqli_fetch_array($total_records)[0];
@@ -153,18 +154,18 @@
             </div>
 
             <!-- Tìm kiếm sản phẩm -->
-            <form action="" method="get" class="search-form">
+            <form id="search-form" action="" method="get" class="search-form">
                 <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="<?= $search ?>">
                 <button type="submit"><i class="bx bx-search"></i></button>
             </form>
             <!-- Lấy danh mục từ cơ sở dữ liệu -->
             <?php
-            $categories = mysqli_query($conn, "SELECT * FROM danhmuc"); 
+            $categories = mysqli_query($conn, "SELECT * FROM danhmuc");
             ?>
 
-            <form action="" method="get" class="search-form">
+            <form id="category-form" action="" method="get" class="search-form">
 
-                <select name="category">
+                <select name="category" id="category">
                     <option value="">Tất cả danh mục</option>
                     <?php while ($category = mysqli_fetch_assoc($categories)) { ?>
                         <option value="<?= $category['id']; ?>" <?= isset($_GET['category']) && $_GET['category'] == $category['id'] ? 'selected' : '' ?>>
@@ -176,7 +177,7 @@
             </form>
 
 
-            <section class="products">
+            <section class="products" id="product-container">
                 <div class="box-container">
                     <?php
                     if (mysqli_num_rows($select_products) > 0) {
@@ -218,7 +219,7 @@
 
 
             <!-- Phân trang -->
-            <div class="pagination">
+            <div class="pagination" id="pagination">
                 <ul>
                     <?php
                     for ($i = 1; $i <= $total_pages; $i++) {
@@ -229,10 +230,12 @@
             </div>
 
             <?php include 'components/footer.php'; ?>
+
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
         <script src="script.js"></script>
+
 
         <?php
         if (isset($_SESSION['added_to_cart']) && $_SESSION['added_to_cart'] === true) {
@@ -273,7 +276,52 @@
             unset($_SESSION['out_of_stock']);
         }
         ?>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Load sản phẩm đầu tiên
+                function loadProducts(page = 1) {
+                    const search = $('#search').val();
+                    const category = $('#category').val();
 
+                    $.ajax({
+                        url: 'pagination_ajax.php',
+                        method: 'GET',
+                        data: {
+                            page,
+                            search,
+                            category
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            // Cập nhật sản phẩm
+                            $('#product-container .box-container').html(response.products);
+
+                            // Cập nhật phân trang
+                            $('#pagination ul').html(response.pagination);
+                        },
+                        error: function() {
+                            alert('Lỗi khi tải sản phẩm.');
+                        }
+                    });
+                }
+
+                // Xử lý tìm kiếm và danh mục
+                $('#search-form, #category-form').on('submit', function(e) {
+                    e.preventDefault();
+                    loadProducts(1);
+                });
+
+                // Xử lý nhấp phân trang
+                $(document).on('click', '.pagination-link', function() {
+                    const page = $(this).data('page');
+                    loadProducts(page);
+                });
+
+                // Load sản phẩm mặc định
+                loadProducts();
+            });
+        </script>
     </body>
 
     </html>

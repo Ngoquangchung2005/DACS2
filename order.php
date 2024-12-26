@@ -93,5 +93,7 @@ $order_query = mysqli_query($conn, "SELECT * FROM orders WHERE user_id = '$user_
     <script src="script.js"></script>
     <?php include 'components/alert.php'; ?>
 </body>
-
+<style>
+    
+</style>
 </html>

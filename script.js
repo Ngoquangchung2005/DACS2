@@ -39,3 +39,22 @@ document.addEventListener('click', (e) => {
         userBox.classList.remove('active');
     }
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const paginationLinks = document.querySelectorAll('.pagination a');
+    const productContainer = document.querySelector('.products .box-container');
+
+    paginationLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    productContainer.innerHTML = data;
+                    window.history.pushState({}, '', url); // Cập nhật URL mà không tải lại trang
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+});

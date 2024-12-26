@@ -103,5 +103,120 @@ if (isset($_GET['order_code'])) {
     </div>
     <?php include 'components/footer.php'; ?>
 </body>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
 
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.banner {
+    background-color: #4CAF50;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+}
+
+.banner h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.title2 {
+    margin: 20px 0;
+    text-align: right;
+}
+
+.title2 a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+    border: 1px solid #4CAF50;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.title2 a:hover {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.order-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.order-summary,
+.order-products {
+    flex: 1;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h2,
+.order-products h2 {
+    margin-top: 0;
+    color: #4CAF50;
+}
+
+.order-summary p {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.order-products table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.order-products table th,
+.order-products table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.order-products table th {
+    background-color: #4CAF50;
+    color: #fff;
+    font-weight: bold;
+}
+
+.order-products table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.order-products table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.grand-total {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.grand-total h3 {
+    color: #4CAF50;
+    font-size: 18px;
+}
+
+</style>
 </html>

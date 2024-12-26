@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ theo Việt Nam
+
 $conn=mysqli_connect("localhost", "root", "", "shop_db");
 
 function unique_id(){
