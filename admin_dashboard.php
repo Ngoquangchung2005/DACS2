@@ -17,7 +17,10 @@ if (!isset($_SESSION['admin_id'])) {
     <title>Admin Dashboard</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <style type="text/css">
-        <?php include 'style2.css'; ?>
+        <?php include 'style2.css'; ?>body {
+            background: url("img/body-bg.jpg");
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -27,14 +30,17 @@ if (!isset($_SESSION['admin_id'])) {
 
     <div class="dashboard-container">
         <h1>Admin Dashboard</h1>
+        <h2>Shop Green Tea</h2>
         <p>Chào mừng bạn đến vơi Admin Dashboard</p>
 
         <div class="dashboard-buttons">
             <a href="admin_manage_products.php"><i class='bx bx-store'></i>Quản lý sản phẩm</a>
             <a href="admin_orders.php"><i class='bx bx-cart'></i>Đơn hàng</a>
             <a href="admin_users.php"><i class='bx bx-user'></i>Users</a>
-            <a href="logout.php"><i class='bx bx-log-out'></i>Đăng xuất</a>
+            <a href="admin_categories.php"><i class='bx bx-category'></i>Quản lý danh mục</a>
+            <a href="login.php"><i class='bx bx-log-out'></i>Đăng xuất</a>
         </div>
+
     </div>
 
 </body>

@@ -16,9 +16,9 @@ if (isset($_POST['update_status'])) {
     $update_status_query = mysqli_query($conn, "UPDATE orders SET status='$status' WHERE order_code='$order_code'");
 
     if ($update_status_query) {
-        echo "<script>alert('Order status updated successfully!');</script>";
+        echo "<script>alert('Cập nhật trạng thái thành công!');</script>";
     } else {
-        echo "<script>alert('Failed to update order status.');</script>";
+        echo "<script>alert('Cập nhật trạng thái thất bại.');</script>";
     }
 }
 
@@ -30,7 +30,7 @@ if (isset($_POST['update_status'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Manage Orders</title>
+    <title>Quản lý đơn hàng</title>
     <style type="text/css">
         <?php include 'style2.css'; ?>.btn {
             background-color: #28a745;
@@ -55,7 +55,7 @@ if (isset($_POST['update_status'])) {
     <?php include 'components/admin_header.php'; ?>
 
     <section class="order-management">
-        <h1>Manage Orders</h1>
+        <h1>Quản lý đơn hàng</h1>
         <table>
             <thead>
                 <tr>

@@ -20,6 +20,19 @@ if (isset($_POST['update_category'])) {
     mysqli_query($conn, $query) or die('Query failed');
     $success_msg = "Category updated successfully!";
 }
+// Xử lý thêm danh mục
+if (isset($_POST['add_category'])) {
+    $new_category_name = mysqli_real_escape_string($conn, $_POST['new_category_name']);
+
+    if (!empty($new_category_name)) {
+        $query = "INSERT INTO danhmuc (name) VALUES ('$new_category_name')";
+        mysqli_query($conn, $query) or die('Query failed');
+        $success_msg = "Thêm danh mục thành công!";
+    } else {
+        $error_msg = "Tên danh mục không được để trống!";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -28,10 +41,25 @@ if (isset($_POST['update_category'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Categories</title>
+    <title>Quản lý danh mục</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style type="text/css">
-        <?php include 'style2.css'; ?>
+        <?php include 'style2.css'; ?>.btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 
@@ -39,7 +67,7 @@ if (isset($_POST['update_category'])) {
     <?php include 'components/admin_header.php'; ?>
 
     <section class="category-management">
-        <h1>Edit Categories</h1>
+        <h1>Quản lý danh mục</h1>
 
         <?php if (isset($success_msg)) { ?>
             <p class="success"><?php echo $success_msg; ?></p>
@@ -79,6 +107,25 @@ if (isset($_POST['update_category'])) {
             </tbody>
         </table>
     </section>
+
+    <section class="add-category">
+        <h2>Thêm danh mục</h2>
+
+        <?php if (isset($success_msg)) { ?>
+            <p class="success"><?php echo $success_msg; ?></p>
+        <?php } ?>
+
+        <?php if (isset($error_msg)) { ?>
+            <p class="error"><?php echo $error_msg; ?></p>
+        <?php } ?>
+
+        <form method="post" action="">
+            <label for="new_category_name">Thêm danh mục:</label>
+            <input type="text" id="new_category_name" name="new_category_name" placeholder="Nhập tên danh mục" required>
+            <input type="submit" name="add_category" value="Thêm danh mục" class="btn">
+        </form>
+    </section>
+
 </body>
 
 </html>

@@ -23,9 +23,9 @@ if (isset($_POST['add_product'])) {
         $query = "INSERT INTO products (name, price, product_detail, quantity, iddm, image) 
                   VALUES ('$product_name', '$product_price', '$product_detail', '$product_quantity', '$iddm', '$product_image')";
         mysqli_query($conn, $query) or die('query failed');
-        $success_msg = "Product added successfully";
+        $success_msg = "Sản phẩm đã được thêm thành công";
     } else {
-        $error_msg = "Failed to upload image";
+        $error_msg = "Không thể tải ảnh";
     }
 }
 
@@ -90,7 +90,7 @@ if (isset($_POST['update_product'])) {
             <input type="number" name="price" placeholder="Product Price" required>
             <h4>Product Detail</h4>
             <textarea name="detail" placeholder="Product Detail" required></textarea>
-            
+
 
 
             <input type="number" name="quantity" placeholder="Product Quantity" min="0" required>
@@ -131,9 +131,8 @@ if (isset($_POST['update_product'])) {
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Category</th>
-                    <th>Sold</th> 
+                    <th>Sold</th>
                     <th>Detail</th>
-                    
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -169,7 +168,7 @@ if (isset($_POST['update_product'])) {
                               </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='7'>No products available</td></tr>";
+                    echo "<tr><td colspan='7'>Không có sản phẩm</td></tr>";
                 }
                 ?>
             </tbody>
@@ -179,8 +178,8 @@ if (isset($_POST['update_product'])) {
 
 <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 <script>
-                CKEDITOR.replace('detail');
-            </script>
+    CKEDITOR.replace('detail');
+</script>
 
 
 </html>

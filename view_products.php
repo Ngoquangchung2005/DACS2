@@ -26,7 +26,7 @@
     // Thêm sản phẩm vào giỏ hàng
     if (isset($_POST['add_to_cart'])) {
         $product_id = $_POST['product_id'];
-        $qty = isset($_POST['qty']) ? $_POST['qty'] : 1; // Gán giá trị mặc định là 1
+        $qty =$_POST['qty'];
 
         if (addToCart($user_id, $product_id, $qty)) {
             $_SESSION['added_to_cart'] = true;
@@ -281,7 +281,7 @@
             $(document).ready(function() {
                 // Load sản phẩm đầu tiên
                 function loadProducts(page = 1) {
-                    const search = $('#search').val();
+                    const search = $('#search').val(); //lấy dữ liệu ô tìm kiếm
                     const category = $('#category').val();
 
                     $.ajax({
@@ -292,7 +292,7 @@
                             search,
                             category
                         },
-                        dataType: 'json',
+                        dataType: 'json', //trả đữ liệu định dạng JSon
                         success: function(response) {
                             // Cập nhật sản phẩm
                             $('#product-container .box-container').html(response.products);

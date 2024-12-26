@@ -47,19 +47,27 @@ if (isset($_POST["update_cart"])) {
 
 
 if (isset($_POST['delete_item'])) {
+    // Lấy giá trị `cart_id` từ biểu mẫu
     $cart_id = $_POST['cart_id'];
     $cart_id = filter_var($cart_id, FILTER_SANITIZE_STRING);
 
-    $varify_delete_items = mysqli_query($conn, "SELECT * FROM cart WHERE id = '$cart_id'");
+    // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng của người dùng hay không
+    $verify_delete_item = mysqli_query($conn, "SELECT * FROM cart WHERE id = '$cart_id' AND user_id = '$user_id'");
 
-    if (mysqli_num_rows($varify_delete_items) > 0) {
-        $delete_cart_id = mysqli_query($conn, "DELETE FROM cart WHERE id = '$cart_id'");
+    if (mysqli_num_rows($verify_delete_item) > 0) {
+        // Xóa sản phẩm ra khỏi giỏ hàng
+        $delete_cart_item = mysqli_query($conn, "DELETE FROM cart WHERE id = '$cart_id' AND user_id = '$user_id'");
 
-        $success_msg[] = "Mục giỏ hàng đã được xóa thành công";
+        if ($delete_cart_item) {
+            $success_msg[] = "Mục giỏ hàng đã được xóa thành công";
+        } else {
+            $warning_msg[] = "Không thể xóa mục giỏ hàng. Vui lòng thử lại.";
+        }
     } else {
-        $warning_msg[] = "Mặt hàng trong giỏ hàng đã bị xóa";
+        $warning_msg[] = "Mặt hàng không tồn tại trong giỏ hàng của bạn.";
     }
 }
+
 // Kiểm tra nếu người dùng nhấn nút "empty cart"
 if (isset($_POST["empty_cart"])) {
     // Kiểm tra xem giỏ hàng của người dùng có sản phẩm nào không
@@ -129,7 +137,7 @@ if (isset($_POST["empty_cart"])) {
                                     Tổng : <span>$<?= $sub_total = (floatval($fetch_cart['qty']) * floatval($fetch_cart['price'])) ?></span>
                                 </p>
 
-                                <button type="submit" name="delete_item" class="btn" onclick="return confirm('delete this item')">delete</button>
+                                <button type="submit" name="delete_item" class="btn" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">Xóa</button>
 
 
 

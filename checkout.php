@@ -22,7 +22,7 @@ function generate_order_code()
     return uniqid('ORDER_');
 }
 
-// Xử lý đặt hàng
+
 // Xử lý đặt hàng
 if (isset($_POST["place_order"])) {
     $order_code = generate_order_code(); // Tạo mã đơn hàng
@@ -88,7 +88,7 @@ if (isset($_POST["place_order"])) {
                     $update_product = mysqli_query($conn, "UPDATE products SET quantity='$new_qty', sold='$new_sold' WHERE id='$product_id'");
 
                     if (!$update_product) {
-                        $warning_msg[] = 'Error updating product quantity for product: ' . $product_name;
+                        $warning_msg[] = 'Lỗi cập nhật sản phẩm: ' . $product_name;
                     }
                 }
 
@@ -99,7 +99,7 @@ if (isset($_POST["place_order"])) {
             }
         }
     } else {
-        $warning_msg[] = 'Something went wrong while placing your order.';
+        $warning_msg[] = 'Có lỗi xảy ra.';
     }
 }
 
@@ -153,10 +153,10 @@ if (isset($_POST["place_order"])) {
                             <div class="input-field">
                                 <p>Phương thức thanh toán *</p>
                                 <select name="method" class="input">
-                                    <option value="cash on delivery">Thanh toán khi nhận hàng</option>
-                                    <option value="credit or debit card">Thẻ tín dụng hoặc thẻ ghi nợ</option>
-                                    <option value="net banking">Ngân hàng ròng</option>
-                                    <option value="UPI or RuPay">UPI hoặc RuPay</option>
+                                    <option value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</option>
+                                    <option value="Thẻ tín dụng hoặc thẻ ghi nợ">Thẻ tín dụng hoặc thẻ ghi nợ</option>
+                                    <option value="Ngân hàng ròng">Ngân hàng ròng</option>
+                                    <option value="UPI hoặc RuPay">UPI hoặc RuPay</option>
                                     <option value="paytm">Paytm</option>
                                 </select>
                             </div>
@@ -236,7 +236,7 @@ if (isset($_POST["place_order"])) {
                         }
                         ?>
                     </div>
-                    <div class="total">Grand Total <span>$<?= $grand_total; ?>/-</span></div>
+                    <div class="total">Tổng tiền sản phẩm <span><?= $grand_total; ?> VNĐ</span></div>
                 </div>
             </div>
         </section>

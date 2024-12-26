@@ -9,7 +9,7 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['forgot_submit'])) {
-        // Bước 1: Gửi mã xác nhận đến email
+        // Gửi mã xác nhận đến email
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $query = "SELECT * FROM `users` WHERE email = '$email'";
         $result = mysqli_query($conn, $query);
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo '<script>alert("Email không tồn tại!");</script>';
         }
     } elseif (isset($_POST['verify_submit'])) {
-        // Bước 2: Xác nhận mã và đặt lại mật khẩu
+        //  Xác nhận mã và đặt lại mật khẩu
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $code = mysqli_real_escape_string($conn, $_POST['code']);
         $new_password = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
